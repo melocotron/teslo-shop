@@ -36,6 +36,6 @@ export class CreateProductDto {
   @IsArray()
   sizes: string[];
 
-  @IsIn(['men', 'women', 'kid', 'unixex'])
+  @IsIn(['men', 'women', 'kid', 'unisex'])
   gender: string;
 }
