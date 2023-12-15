@@ -4,7 +4,6 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { ProductsModule } from './products/products.module';
 import { CommonModule } from './common/common.module';
 
-const sync = process.env.DB_SYNC === 'true' ? true : false;
 @Module({
   imports: [
     ConfigModule.forRoot(),
@@ -16,7 +15,7 @@ const sync = process.env.DB_SYNC === 'true' ? true : false;
       username: process.env.DB_USERNAME,
       password: process.env.DB_PASSWORD,
       autoLoadEntities: true,
-      synchronize: sync,
+      synchronize: JSON.parse(process.env.DB_SYNC),
     }),
     ProductsModule,
     CommonModule,
