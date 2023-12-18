@@ -112,6 +112,7 @@ export class ProductsService {
       await queryRunner.manager.save(product);
       //await this.productRepository.save(product);
       await queryRunner.commitTransaction();
+
       return this.findOnePlain(id);
     } catch (error) {
       await queryRunner.rollbackTransaction();
@@ -134,5 +135,15 @@ export class ProductsService {
     throw new InternalServerErrorException(
       'Unexpected error, check server logs',
     );
+  }
+
+  // solo en modo develop, una vez al levantar producto para usar el seed
+  async deleteAllProducts() {
+    const query = this.productImageRepository.createQueryBuilder('product');
+    try {
+      return await query.delete().where({}).execute();
+    } catch (error) {
+      this.handleDBExceptions(error);
+    }
   }
 }
