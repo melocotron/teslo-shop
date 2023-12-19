@@ -139,7 +139,7 @@ export class ProductsService {
 
   // solo en modo develop, una vez al levantar producto para usar el seed
   async deleteAllProducts() {
-    const query = this.productImageRepository.createQueryBuilder('product');
+    const query = this.productRepository.createQueryBuilder('product');
     try {
       return await query.delete().where({}).execute();
     } catch (error) {
