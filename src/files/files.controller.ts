@@ -8,12 +8,13 @@ import {
   UploadedFile,
   UseInterceptors,
 } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { Response } from 'express';
 import { diskStorage } from 'multer';
 import { FilesService } from './files.service';
+
 import { fileFilter, fileNamer } from './helpers';
-import { ConfigService } from '@nestjs/config';
 
 @Controller('files')
 export class FilesController {
@@ -29,10 +30,8 @@ export class FilesController {
     imageName: string,
   ) {
     const path = this.filesService.getStaticProductImage(imageName);
-    res.status(403).json({
-      ok: false,
-      path: path,
-    });
+
+    res.sendFile(path);
   }
 
   @Post('product')
@@ -41,7 +40,7 @@ export class FilesController {
       fileFilter: fileFilter,
       //limits: { fileSize: 1000 },
       storage: diskStorage({
-        destination: './static/uploads',
+        destination: './static/products',
         filename: fileNamer,
       }),
     }),
