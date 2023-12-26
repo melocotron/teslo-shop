@@ -1,5 +1,11 @@
 import { IsEmail } from 'class-validator';
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  BeforeInsert,
+  BeforeUpdate,
+  Column,
+  Entity,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 
 @Entity('users')
 export class User {
@@ -16,4 +22,13 @@ export class User {
   isActive: boolean;
   @Column('text', { array: true, default: ['user'] })
   roles: string[];
+
+  @BeforeInsert()
+  checkfieldBeforeInsert() {
+    this.email = this.email.toLocaleLowerCase().trim();
+  }
+  @BeforeUpdate()
+  checkfieldBeforeUpdate() {
+    this.checkfieldBeforeInsert();
+  }
 }
